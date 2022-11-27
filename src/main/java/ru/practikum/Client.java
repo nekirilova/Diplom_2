@@ -13,4 +13,12 @@ public class Client {
                 .setBaseUri(BASE_URI)
                 .build();
     }
+
+    protected RequestSpecification getAuthSpec(String token) {
+        return new RequestSpecBuilder()
+                .setContentType(ContentType.JSON)
+                .setBaseUri(BASE_URI)
+                .addHeader("Authorization", token)
+                .build();
+    }
 }
