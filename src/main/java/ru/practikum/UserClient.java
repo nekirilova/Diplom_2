@@ -44,4 +44,23 @@ public class UserClient extends Client{
              .post(LOGIN_USER)
              .then();
  }
+//метод для обновления данных пользователя с авторизацией
+ public ValidatableResponse editWithAuthorization(User user, String token) {
+     return given()
+             .spec(getAuthSpec(token))
+             .body(user)
+             .when()
+             .patch(DELETE_USER)
+             .then();
+ }
+
+    //метод для обновления данных пользователя без авторизации
+    public ValidatableResponse editWithoutAuthorization(User user) {
+        return given()
+                .spec(getSpec())
+                .body(user)
+                .when()
+                .patch(DELETE_USER)
+                .then();
+    }
 }
