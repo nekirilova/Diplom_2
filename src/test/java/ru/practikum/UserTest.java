@@ -24,7 +24,7 @@ public class UserTest {
     @After
     public void cleanUp() {
        token = userClient.getToken(response);
-       System.out.println(token);
+     //  System.out.println(token);
        userClient.delete(token);
     }
 
@@ -34,9 +34,18 @@ public class UserTest {
         int expectedStatusCode = 200;
         response = userClient.create(user);
         int actualStatusCode = response.extract().statusCode();
-        System.out.println(actualStatusCode);
-        Assert.assertEquals("Incorrect status code",expectedStatusCode, actualStatusCode );
+       // System.out.println(actualStatusCode);
+        Assert.assertEquals("Incorrect status code",expectedStatusCode, actualStatusCode);
     }
 
+    @Test
+    public void createSameUserReturnsStatusCode403() {
+        int expectedStatusCode = 403;
+        response = userClient.create(user);
+        ValidatableResponse badResponse = userClient.create(user);
+        int actualStatusCode = badResponse.extract().statusCode();
+       // System.out.println(actualStatusCode);
+        Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
+    }
 
 }
