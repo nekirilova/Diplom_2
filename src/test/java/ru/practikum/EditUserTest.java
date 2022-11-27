@@ -13,6 +13,7 @@ public class EditUserTest {
     private User user;
     private String token;
     private ValidatableResponse response;
+    private String expectedMessage = "You should be authorised";
 
     @Before //перед каждым тестом создаем пользователя с корректными данными
     public void setUp() {
@@ -83,8 +84,11 @@ public class EditUserTest {
         ValidatableResponse editResponse = userClient
                 .editWithoutAuthorization(userGenerator.getRandomUser());//изменяем данные пользователя на рандомные
         int actualStatusCode = editResponse.extract().statusCode();//извлекаем фактический статус код
+        String actualMessage = editResponse.extract().path("message");//извлекаем факт.сообщение об ошибке
         //сравниваем фактический и ожидаемый статус-код
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
+        //сравниваем ожидаемое сообщение об ошибке и фактическое
+        Assert.assertEquals("Incorrect error message", expectedMessage, actualMessage);
 
     }
 
@@ -95,9 +99,11 @@ public class EditUserTest {
                 .editWithoutAuthorization(userGenerator.getRandomEmail());//изменяем емейл пользователя
 
         int actualStatusCode = editResponse.extract().statusCode();//извлекаем фактический статус код
+        String actualMessage = editResponse.extract().path("message");//извлекаем факт.сообщение об ошибке
         //сравниваем фактический и ожидаемый статус-код
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
-
+        //сравниваем ожидаемое сообщение об ошибке и фактическое
+        Assert.assertEquals("Incorrect error message", expectedMessage, actualMessage);
     }
 
     @Test //если обновлять пароль без авторизации, вернется ошибка 401
@@ -107,8 +113,11 @@ public class EditUserTest {
                 .editWithoutAuthorization(userGenerator.getRandomPassword());//изменяем пароль пользователя
 
         int actualStatusCode = editResponse.extract().statusCode();//извлекаем фактический статус код
+        String actualMessage = editResponse.extract().path("message");//извлекаем факт.сообщение об ошибке
         //сравниваем фактический и ожидаемый статус-код
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
+        //сравниваем ожидаемое сообщение об ошибке и фактическое
+        Assert.assertEquals("Incorrect error message", expectedMessage, actualMessage);
 
     }
 
@@ -119,7 +128,10 @@ public class EditUserTest {
                 .editWithoutAuthorization(userGenerator.getRandomName());//изменяем имя пользователя
 
         int actualStatusCode = editResponse.extract().statusCode();//извлекаем фактический статус код
+        String actualMessage = editResponse.extract().path("message");//извлекаем факт.сообщение об ошибке
         //сравниваем фактический и ожидаемый статус-код
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
+        //сравниваем ожидаемое сообщение об ошибке и фактическое
+        Assert.assertEquals("Incorrect error message", expectedMessage, actualMessage);
     }
     }
