@@ -4,11 +4,14 @@ import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
 
+//класс с методами для создания, авторизации и удаления пользователя
 public class UserClient extends Client{
 
-    private final String CREATE_USER = "api/auth/register";
-    private final String DELETE_USER = "api/auth/user";
+    private final String CREATE_USER = "api/auth/register"; //ручка для создания пользователя
+    private final String DELETE_USER = "api/auth/user"; //ручка для удаления пользователя
+    private final String LOGIN_USER = "api/auth/login";//Ручка для авторизации пользователя
 
+    //метод для создания пользователя
  public ValidatableResponse create(User user) {
      return given()
              .spec(getSpec())
@@ -19,12 +22,12 @@ public class UserClient extends Client{
 
 
  }
-
+//метод для получения токена авторизации
  public String getToken(ValidatableResponse response) {
     return response.extract().path("accessToken");
 
  }
-
+//метод для удаления пользователя
  public ValidatableResponse delete(String token) {
         return given()
                 .spec(getAuthSpec(token))
@@ -33,4 +36,12 @@ public class UserClient extends Client{
                 .then();
  }
 
+ public ValidatableResponse login(LoginUser loginUser) {
+     return given()
+             .spec(getSpec())
+             .body(loginUser)
+             .when()
+             .post(LOGIN_USER)
+             .then();
+ }
 }

@@ -1,10 +1,10 @@
 package ru.practikum;
-
+//класс для создания пользователя
 public class User {
     private String email;
     private String password;
     private String name;
-
+//конструкторы с параметрами и без для сериализации данных
     public User(String email, String password, String name) {
         this.email = email;
         this.password = password;
@@ -13,6 +13,8 @@ public class User {
     public User() {
 
     }
+
+    //геттеры и сеттеры для приватных полей класса
     public String getEmail() {
         return email;
     }
