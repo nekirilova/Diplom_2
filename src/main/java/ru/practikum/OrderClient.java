@@ -34,7 +34,15 @@ public class OrderClient extends Client{
              randomIngredients.add(ingredients.get(index));}
             return randomIngredients;
          }
+    //метод, который генерирует неправильный хэш ингредиентов
+    public List<String> generateWrongIngredients() {
+         Random random = new Random();
+         List<String> randomWrongIngredients = new ArrayList<>();
+         randomWrongIngredients.add("ingredient" + random.nextInt(1000000));
+         return randomWrongIngredients;
+    }
 
+    //метод для создания заказа с авторизацией
          public ValidatableResponse create(Order order, String token) {
          return given()
                  .spec(getAuthSpec(token))
@@ -43,5 +51,32 @@ public class OrderClient extends Client{
                  .post(CREATE_ORDER)
                  .then();
          }
+
+         //метод для создания заказа без авторизации
+    public ValidatableResponse createWithoutToken(Order order) {
+        return given()
+                .spec(getSpec())
+                .body(order)
+                .when()
+                .post(CREATE_ORDER)
+                .then();
+    }
+
+    //метод для получения списка заказов авторизованного пользователя
+    public ValidatableResponse getOrdersListWithAuth(String token) {
+         return given()
+                 .spec(getAuthSpec(token))
+                 .when()
+                 .get(CREATE_ORDER).then();
+    }
+
+    //метод для получения списка заказов неавторизованного пользователя
+    public ValidatableResponse getOrdersListWithoutAuth() {
+        return given()
+                .spec(getSpec())
+                .when()
+                .get(CREATE_ORDER).then();
+    }
+
      }
 

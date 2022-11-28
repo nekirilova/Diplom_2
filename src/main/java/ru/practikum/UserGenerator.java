@@ -7,6 +7,7 @@ public class UserGenerator {
     Random random = new Random();
     private final String EMAIL = "harrypotter1@mail.ru";
     private final String PASSWORD = "expeliarmus!";
+
     private final String NAME = "Harry";
     private final String INCORRECT_EMAIL = "voldemort@mail.ru";
     private final String INCORRECT_PASSWORD = "avadakedavra";

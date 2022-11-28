@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.util.List;
 
 public class OrderTest {
-
     Order order;
     OrderClient orderClient;
     List<String> ingredients;
@@ -41,14 +40,56 @@ public class OrderTest {
         userClient.delete(token); //удаляем пользователя
     }
 
-    @Test
+    @Test //успешное создание заказа с авторизацией
     public void createOrderWithTokenIsSuccessful() {
-        int expectedStatusCode = 200;
+        int expectedStatusCode = 200; //ожидаемый статус код
         createOrderResponse = orderClient.create(order, token); //создаем заказ с авторизацией
-        int actualStatusCode = createOrderResponse.extract().statusCode();
-        int orderNumber = createOrderResponse.extract().path("order.number");
-        System.out.println(orderNumber);
+        int actualStatusCode = createOrderResponse.extract().statusCode(); //извлекаем фактический статус код
+        int orderNumber = createOrderResponse.extract().path("order.number"); //извлекаем номер заказа
+        String orderId = createOrderResponse.extract().path("order._id"); //извлекаем id заказа
+        //проверяем, что фактический статус код соответствует ожидаемому
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
-        Assert.assertNotNull(orderNumber);
+        Assert.assertNotNull(orderNumber); //проверяем, что есть номер заказа
+        Assert.assertNotNull(orderId);// проверяем, что есть айди заказа
+    }
+
+    @Test //успешное создание заказа с авторизацией возвращает имя пользователя и емейл
+    public void createOrderWithTokenReturnsUsersName() {
+        String expectedUserName = user.getName(); //ожидаемое имя
+        String expectedUserEmail = user.getEmail();//ожидаемый емейл
+        createOrderResponse = orderClient.create(order, token); //создаем заказ с авторизацией
+        String actualUserName = createOrderResponse.extract().path("order.owner.name"); //извлекаем имя пользователя
+        String actualUserEmail = createOrderResponse.extract().path("order.owner.email"); //извлекаем емейл пользователя
+        //проверяем, что ФР соответствует ОР
+        Assert.assertEquals("Incorrect name", expectedUserName, actualUserName);
+        Assert.assertEquals("Incorrect email", expectedUserEmail, actualUserEmail);
+
+    }
+
+    @Test //успешное создание заказа с игредиентами
+    public void createOrderWithIngredientsIsSuccessful() {
+        int expectedStatusCode = 200; //ожидаемый статус код
+        createOrderResponse = orderClient.create(order, token); //создаем заказ с авторизацией
+        int actualStatusCode = createOrderResponse.extract().statusCode(); //извлекаем фактический статус код
+        List<String> orderIngredients = createOrderResponse.extract()
+                .body().jsonPath().getList("order.ingredients._id"); //извлекаем хеш номера ингредиентов
+
+        //проверяем, что фактический статус код соответствует ожидаемому
+        Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
+        //проверяем, что список ингредиентов, полученный из ответа такой же, как переданный список индгредиентов
+        Assert.assertTrue("Incorrect list of ingredients", orderIngredients.containsAll(randomIngredients));
+    }
+
+
+    @Test //создание заказа без авторизации возвращает статус код 401
+    public void createOrderWithoutTokenReturnsStatusCode401() {
+        int expectedStatusCode = 401; //ожидаемый статус код
+        String expectedMessage = "You should be authorised";
+        createOrderResponse = orderClient.createWithoutToken(order); //создаем заказ без авторизации
+        int actualStatusCode = createOrderResponse.extract().statusCode(); //извлекаем фактический статус код
+        String actualMessage = createOrderResponse.extract().path("message"); //извлекаем сообщение об ошибке
+        //проверяем, что фактический статус код соответствует ожидаемому
+        Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
+        Assert.assertEquals("Incorrect message", expectedMessage, actualMessage);
     }
 }
