@@ -1,21 +1,25 @@
 package ru.practikum;
 
+import java.util.List;
+
 //класс для создания заказа
 public class Order {
-    private String[] ingredients;
-
-    public Order(String[] ingredients) {
+    private List<String > ingredients;
+//конструктор с параметрами и без для сериализации тестовых данных
+    public Order(List<String> ingredients) {
         this.ingredients = ingredients;
     }
     public Order() {
 
     }
 
-    public String[] getIngredients() {
+    public List<String> getIngredients() {
+
         return ingredients;
     }
 
-    public void setIngredients(String[] ingredients) {
+    public void setIngredients(List<String> ingredients) {
+
         this.ingredients = ingredients;
     }
 }
