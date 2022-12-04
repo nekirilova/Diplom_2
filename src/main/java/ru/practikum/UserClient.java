@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
@@ -11,7 +12,7 @@ public class UserClient extends Client{
     private final String DELETE_USER = "api/auth/user"; //ручка для удаления пользователя
     private final String LOGIN_USER = "api/auth/login";//Ручка для авторизации пользователя
 
-    //метод для создания пользователя
+   @Step("метод для создания пользователя")
  public ValidatableResponse create(User user) {
      return given()
              .spec(getSpec())
@@ -22,12 +23,12 @@ public class UserClient extends Client{
 
 
  }
-//метод для получения токена авторизации
+@Step("метод для получения токена авторизации")
  public String getToken(ValidatableResponse response) {
     return response.extract().path("accessToken");
 
  }
-//метод для удаления пользователя
+@Step("метод для удаления пользователя")
  public ValidatableResponse delete(String token) {
         return given()
                 .spec(getAuthSpec(token))
@@ -36,6 +37,7 @@ public class UserClient extends Client{
                 .then();
  }
 
+ @Step("метод для авторизации")
  public ValidatableResponse login(LoginUser loginUser) {
      return given()
              .spec(getSpec())
@@ -44,7 +46,7 @@ public class UserClient extends Client{
              .post(LOGIN_USER)
              .then();
  }
-//метод для обновления данных пользователя с авторизацией
+@Step("метод для обновления данных пользователя с авторизацией")
  public ValidatableResponse editWithAuthorization(User user, String token) {
      return given()
              .spec(getAuthSpec(token))
@@ -54,7 +56,7 @@ public class UserClient extends Client{
              .then();
  }
 
-    //метод для обновления данных пользователя без авторизации
+  @Step("метод для обновления данных пользователя без авторизации")
     public ValidatableResponse editWithoutAuthorization(User user) {
         return given()
                 .spec(getSpec())

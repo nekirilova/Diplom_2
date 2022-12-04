@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Assert;
@@ -30,7 +31,8 @@ public class EditUserTest {
         userClient.delete(token);//удаляем пользователя по токену
     }
 
-    @Test //можно обновить все поля сразу
+    @Test
+    @DisplayName("можно обновить все поля сразу")
     public void editUserWithTokenReturnsStatusCode200() {
         int expectedStatusCode = 200; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -42,7 +44,8 @@ public class EditUserTest {
 
     }
 
-    @Test //можно обновить только поле емейл
+    @Test
+    @DisplayName("можно обновить только поле емейл")
     public void editUserEmailWithTokenReturnsStatusCode200() {
         int expectedStatusCode = 200; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -54,7 +57,8 @@ public class EditUserTest {
 
     }
 
-    @Test //можно обновить только поле пароль
+    @Test
+    @DisplayName("можно обновить только поле пароль")
     public void editUserPasswordWithTokenReturnsStatusCode200() {
         int expectedStatusCode = 200; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -66,7 +70,8 @@ public class EditUserTest {
 
     }
 
-    @Test //можно обновить только поле имя
+    @Test
+    @DisplayName("можно обновить только поле имя")
     public void editUserNameWithTokenReturnsStatusCode200() {
         int expectedStatusCode = 200; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -78,7 +83,8 @@ public class EditUserTest {
 
     }
 
-    @Test //если обновлять поля без авторизации, вернется ошибка 401
+    @Test
+    @DisplayName("если обновлять поля без авторизации, вернется ошибка 401")
     public void editUserWithoutTokenReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -92,7 +98,8 @@ public class EditUserTest {
 
     }
 
-    @Test //если обновлять емейл без авторизации, вернется ошибка 401
+    @Test
+    @DisplayName("если обновлять емейл без авторизации, вернется ошибка 401")
     public void editUserEmailWithoutTokenReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -106,7 +113,8 @@ public class EditUserTest {
         Assert.assertEquals("Incorrect error message", expectedMessage, actualMessage);
     }
 
-    @Test //если обновлять пароль без авторизации, вернется ошибка 401
+    @Test
+    @DisplayName("если обновлять пароль без авторизации, вернется ошибка 401")
     public void editUserPasswordWithoutTokenReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient
@@ -121,7 +129,8 @@ public class EditUserTest {
 
     }
 
-    @Test //если обновлять имя без авторизации, вернется ошибка 401
+    @Test
+    @DisplayName("если обновлять имя без авторизации, вернется ошибка 401")
     public void editUserNameWithoutTokenReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус-код
         ValidatableResponse editResponse = userClient

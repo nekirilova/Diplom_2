@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,8 +18,8 @@ public class UserNegativeTest {
         userClient = new UserClient();
     }
 
-//при создании пользователя без емейла возвращается статус код 403
     @Test
+    @DisplayName("при создании пользователя без емейла возвращается статус код 403")
     public void createUserWithoutEmailReturnsStatusCode403() {
         int expectedStatusCode = 403;//ожидаемый статус код
         user = userGenerator.getUserWithoutEmail(); //создаем объект без емейла
@@ -29,6 +30,7 @@ public class UserNegativeTest {
     }
     //при создании пользователя без пароля возвращается статус код 403
     @Test
+    @DisplayName("при создании пользователя без пароля возвращается статус код 403")
     public void createUserWithoutPasswordReturnsStatusCode403() {
         int expectedStatusCode = 403;//ожидаемый статус код
         user = userGenerator.getUserWithoutPassword();//создаем объект без пароля
@@ -37,8 +39,9 @@ public class UserNegativeTest {
 //проверяем, что фактический и ожидаемый статус код совпадают
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
     }
-    //при создании пользователя без имени возвращается статус код 403
+
     @Test
+    @DisplayName("при создании пользователя без имени возвращается статус код 403")
     public void createUserWithoutNameReturnsStatusCode403() {
         int expectedStatusCode = 403;//ожидаемый статус код
         user = userGenerator.getUserWithoutName();//создаем объект без имениы

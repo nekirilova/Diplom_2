@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Assert;
@@ -14,7 +15,6 @@ public class OrderTest {
     List<String> ingredients;
     List<String> randomIngredients;
     private UserGenerator userGenerator;
-    private LoginUser loginUser;
     private UserClient userClient;
     private User user;
     private ValidatableResponse response;
@@ -40,7 +40,8 @@ public class OrderTest {
         userClient.delete(token); //удаляем пользователя
     }
 
-    @Test //успешное создание заказа с авторизацией
+    @Test
+    @DisplayName("успешное создание заказа с авторизацией")
     public void createOrderWithTokenIsSuccessful() {
         int expectedStatusCode = 200; //ожидаемый статус код
         createOrderResponse = orderClient.create(order, token); //создаем заказ с авторизацией
@@ -53,7 +54,8 @@ public class OrderTest {
         Assert.assertNotNull(orderId);// проверяем, что есть айди заказа
     }
 
-    @Test //успешное создание заказа с авторизацией возвращает имя пользователя и емейл
+    @Test
+    @DisplayName("успешное создание заказа с авторизацией возвращает имя пользователя и емейл")
     public void createOrderWithTokenReturnsUsersName() {
         String expectedUserName = user.getName(); //ожидаемое имя
         String expectedUserEmail = user.getEmail();//ожидаемый емейл
@@ -66,7 +68,8 @@ public class OrderTest {
 
     }
 
-    @Test //успешное создание заказа с игредиентами
+    @Test
+    @DisplayName("успешное создание заказа с игредиентами")
     public void createOrderWithIngredientsIsSuccessful() {
         int expectedStatusCode = 200; //ожидаемый статус код
         createOrderResponse = orderClient.create(order, token); //создаем заказ с авторизацией
@@ -81,7 +84,8 @@ public class OrderTest {
     }
 
 
-    @Test //создание заказа без авторизации возвращает статус код 401
+    @Test
+    @DisplayName("создание заказа без авторизации возвращает статус код 401")
     public void createOrderWithoutTokenReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус код
         String expectedMessage = "You should be authorised";

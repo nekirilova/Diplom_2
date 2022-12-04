@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Assert;
@@ -28,7 +29,8 @@ private ValidatableResponse response;
     userClient.delete(token);//удаляем пользователя по этому токену
 }
 
-@Test //авторизация с проавильными данными возвращает в ответ статус код 200
+@Test
+    @DisplayName("авторизация с правильными данными возвращает в ответ статус код 200")
     public void loginUserWithCorrectDataReturnsStatusCode200() {
     int expectedStatusCode = 200; //ожидаемый статус код
     loginUser = userGenerator.getCorrectLoginData(); //создаем объект для авторизации с правильными данными
@@ -37,7 +39,8 @@ private ValidatableResponse response;
 //проверяем, что фактический и ожидаемый статус код совпадают
     Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
 }
-    @Test //авторизация с неправильным емейлом
+    @Test
+    @DisplayName("авторизация с неправильным емейлом")
     public void loginUserWithIncorrectEmailReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус код
         loginUser = userGenerator.getIncorrectEmailLoginData(); //создаем объект для авторизации с Неправильным емейлом
@@ -46,7 +49,8 @@ private ValidatableResponse response;
 //проверяем, что фактический и ожидаемый статус код совпадают
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
     }
-    @Test //авторизация с неправильным паролем
+    @Test
+    @DisplayName("авторизация с неправильным паролем")
     public void loginUserWithIncorrectPasswordReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус код
         loginUser = userGenerator.getIncorrectPasswordLoginData(); //создаем объект для авторизации с неправильным паролем

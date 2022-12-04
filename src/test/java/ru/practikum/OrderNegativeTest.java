@@ -1,23 +1,21 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 public class OrderNegativeTest {
 
     Order order;
     OrderClient orderClient;
     private UserGenerator userGenerator;
-    private LoginUser loginUser;
+
     private UserClient userClient;
     private User user;
     private ValidatableResponse response;
-    private ValidatableResponse createOrderResponse;
     private String token;
 
     @Before
@@ -37,7 +35,8 @@ public class OrderNegativeTest {
         userClient.delete(token); //удаляем пользователя
     }
 
-    @Test //проверяем, что создание заказа без ингридентов невозможно
+    @Test
+    @DisplayName("проверяем, что создание заказа без ингридентов невозможно")
     public void createOrderWithoutIngredientsReturnsStatusCode400() {
         order = new Order();
         int expectedStatusCode = 400; //ожидаемый статус код
@@ -48,12 +47,12 @@ public class OrderNegativeTest {
     }
 
     @Test
+    @DisplayName("Проверяем, что создание заказа с неправильным ингредиентом вернет ошибку сервера")
     public void createOrderWithWrongIngredientReturnsStatusCode500() {
         int expectedStatusCode = 500;
         order = new Order(orderClient.generateWrongIngredients());
         response = orderClient.create(order, token);
         int actualStatusCode = response.extract().statusCode();
-
         Assert.assertEquals("Incorrect status code", expectedStatusCode, actualStatusCode);
     }
 }

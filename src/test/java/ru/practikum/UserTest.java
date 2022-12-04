@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Assert;
@@ -27,8 +28,9 @@ public class UserTest {
        userClient.delete(token);//удаляем пользователя с помощью токена
     }
 
-//тест на создание пользователя с корректными данными
+//
     @Test
+    @DisplayName("тест на создание пользователя с корректными данными")
     public void userCanBeCreated() {
         int expectedStatusCode = 200; //ожидаемый статус код
         user = userGenerator.getCorrectUserData(); //создаем объект с корректными данными
@@ -38,8 +40,9 @@ public class UserTest {
         //проверяем, что фактический и ожидаемый статус код совпадают
         Assert.assertEquals("Incorrect status code",expectedStatusCode, actualStatusCode);
     }
-//тест на создание двух одинаковых пользователей
+
     @Test
+    @DisplayName("создание двух одинаковых пользователей вернет статус код 403")
     public void createSameUserReturnsStatusCode403() {
         int expectedStatusCode = 403;//ожидаемый статус код
         user = userGenerator.getCorrectUserData();//создаем объект с корректными данными

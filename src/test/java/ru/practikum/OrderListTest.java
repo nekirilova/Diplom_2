@@ -1,5 +1,6 @@
 package ru.practikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Assert;
@@ -14,7 +15,7 @@ public class OrderListTest {
     List<String> ingredients;
     List<String> randomIngredients;
     private UserGenerator userGenerator;
-    private LoginUser loginUser;
+
     private UserClient userClient;
     private User user;
     private ValidatableResponse response;
@@ -42,6 +43,7 @@ public class OrderListTest {
     }
 
     @Test
+    @DisplayName("можно получить список заказов с авторизацией")
     public void getOrderListWithAuthorizationIsSuccessful() {
         int expectedStatusCode = 200; //ожидаемый статус код
         getOrderListResponse = orderClient.getOrdersListWithAuth(token); //получаем список заказов
@@ -51,6 +53,7 @@ public class OrderListTest {
       }
 
     @Test
+    @DisplayName("без авторизации получить список заказов нельзя")
     public void getOrderListWithoutAuthorizationReturnsStatusCode401() {
         int expectedStatusCode = 401; //ожидаемый статус код
         getOrderListResponse = orderClient.getOrdersListWithoutAuth(); //получаем список заказов
